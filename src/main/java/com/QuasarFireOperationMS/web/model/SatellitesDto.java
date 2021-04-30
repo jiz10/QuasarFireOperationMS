@@ -1,5 +1,6 @@
 package com.QuasarFireOperationMS.web.model;
 
+import com.QuasarFireOperationMS.web.model.validator.SatelliteListValidator;
 import lombok.*;
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -18,6 +19,7 @@ import java.util.List;
 public class SatellitesDto {
 
     @NotNull(message = "Satellites is mandatory")
+    @SatelliteListValidator
     List<SatelliteDto> satellites;
 
 }
