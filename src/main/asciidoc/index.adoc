@@ -1,0 +1,56 @@
+= MS 01 REST Docs
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toc-title: Index
+:toclevels: 4
+:sectlinks:
+
+Sample application demonstrating how to use Spring REST Docs with JUnit 5.
+
+`DnaControllerTest` makes a call to a very simple service and produces two
+documentation snippets.
+
+GET STATS
+
+One showing how to make a request using cURL:
+
+include::{snippets}/v1/stats/curl-request.adoc[]
+
+One showing the HTTP request:
+
+include::{snippets}/v1/stats/http-request.adoc[]
+
+And one showing the HTTP response:
+
+include::{snippets}/v1/stats/http-response.adoc[]
+
+Response Body:
+include::{snippets}/v1/stats/response-body.adoc[]
+
+Response Fields:
+include::{snippets}/v1/stats/response-fields.adoc[]
+
+POST DNA
+
+One showing how to make a request using cURL:
+
+include::{snippets}/v1/mutant/curl-request.adoc[]
+
+One showing the HTTP request:
+
+include::{snippets}/v1/mutant/http-request.adoc[]
+
+And one showing the HTTP response:
+
+include::{snippets}/v1/mutant/http-response.adoc[]
+
+Response Body:
+include::{snippets}/v1/mutant/response-body.adoc[]
+
+Request Fields
+include::{snippets}/v1/mutant/request-fields.adoc[]
+
+Response Fields:
+include::{snippets}
