@@ -28,6 +28,9 @@ public class SatelliteListValidatorImpl implements ConstraintValidator<Satellite
     @Override
     public boolean isValid(List<SatelliteDto> value, ConstraintValidatorContext context) {
 
+        if(Objects.isNull(value))
+            return false;
+
         if (value.size() != 3)
             return false;
 

@@ -14,7 +14,7 @@ import javax.validation.Payload;
 @Documented
 public @interface SatelliteListValidator {
 
-    String message() default "Dna invalid";
+    String message() default "Satellites group invalid";
 
     Class<?>[] groups() default {};
 

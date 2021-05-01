@@ -36,16 +36,13 @@ public class LocationServiceImpl implements LocationService {
 
         List<String> satellitesNamesList = Arrays.asList(satellitesNames);
         for (SatelliteDto sat : satellitesDto.getSatellites()) {
-            System.out.println(sat.getName());
+            log.info("Satellite name: " + sat.getName());
             if (sat.getName().equalsIgnoreCase(satellitesNamesList.get(0))) {
                 distanceOne = sat.getDistance();
-                System.out.println(distanceOne);
             } else if (sat.getName().equalsIgnoreCase(satellitesNamesList.get(1))) {
                 distanceTwo = sat.getDistance();
-                System.out.println(distanceTwo);
             } else if (sat.getName().equalsIgnoreCase(satellitesNamesList.get(2))) {
                 distanceThree = sat.getDistance();
-                System.out.println(distanceThree);
             }
         }
         double[] distances = new double[]{distanceOne, distanceTwo, distanceThree};

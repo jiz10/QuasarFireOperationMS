@@ -2,6 +2,7 @@ package com.QuasarFireOperationMS.util;
 
 import com.lemmingapex.trilateration.NonLinearLeastSquaresSolver;
 import com.lemmingapex.trilateration.TrilaterationFunction;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.math3.fitting.leastsquares.LeastSquaresOptimizer;
 import org.apache.commons.math3.fitting.leastsquares.LevenbergMarquardtOptimizer;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
  * 30/4/21
  */
 @Service
+@Slf4j
 public class LocationCalculator {
 
     @Value("#{new Double('${satellites.one.x}')}")
@@ -45,9 +47,8 @@ public class LocationCalculator {
 
         //the answer
         double[] centroid = optimum.getPoint().toArray();
-        System.out.println(centroid[0]);
-        System.out.println(centroid[1]);
 
+        log.info("Location x: " + centroid[0] + ", y: " + centroid[1]);
         return centroid;
     }
     /*
