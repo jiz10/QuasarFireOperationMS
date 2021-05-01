@@ -17,10 +17,8 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.ConstraintViolationException;
 import java.io.IOException;
 import java.text.MessageFormat;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -38,17 +36,7 @@ public class GlobalErrorResponseHandler {
     public static final String TYPE_MISMATCH_MESSAGE = "Invalid value for the argument";
     public static final String ILLEGAL_ARGUMENT_MESSAGE = "Illegal value for the argument";
     public static final String NULL_POINTER_MESSAGE = "Null pointer";
-
-    @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<List> validationErrorHandler(ConstraintViolationException e) {
-        List<String> errors = new ArrayList<>(e.getConstraintViolations().size());
-
-        e.getConstraintViolations().forEach(constraintViolation -> {
-            errors.add(constraintViolation.getPropertyPath() + " : " + constraintViolation.getMessage());
-        });
-
-        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
-    }
+    public static final String SATELLITE_DOES_NOT_EXIST = "Satellite doesn't exist";
 
     @ExceptionHandler(BindException.class)
     public ResponseEntity<List> handleBindException(BindException ex) {
@@ -93,6 +81,11 @@ public class GlobalErrorResponseHandler {
     @ExceptionHandler(MissingServletRequestParameterException.class)
     public void missingServletRequestParameterException(HttpServletRequest request, HttpServletResponse response, Exception ex) throws IOException {
         sendError(request, response, HttpServletResponse.SC_NOT_FOUND, REQUEST_MISSING_PARAMS_MESSAGE, ex);
+    }
+
+    @ExceptionHandler(NoSatelliteFoundException.class)
+    public void noSatelliteFoundException(HttpServletRequest request, HttpServletResponse response, Exception ex) throws IOException {
+        sendError(request, response, HttpServletResponse.SC_BAD_REQUEST, SATELLITE_DOES_NOT_EXIST, ex);
     }
 
     private void sendError(HttpServletRequest request, HttpServletResponse response, int statusCode, String message, Exception ex) throws IOException {

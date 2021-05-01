@@ -8,7 +8,6 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 import java.util.Objects;
 
 /**
@@ -28,14 +27,14 @@ public class SatelliteListValidatorImpl implements ConstraintValidator<Satellite
     @Override
     public boolean isValid(List<SatelliteDto> value, ConstraintValidatorContext context) {
 
-        if(Objects.isNull(value))
+        if (Objects.isNull(value))
             return false;
 
         if (value.size() != 3)
             return false;
 
         for (SatelliteDto satelliteDto : value) {
-            if (Objects.isNull(satelliteDto.getDistance()))
+            if (Objects.isNull(satelliteDto.getDistance()) || satelliteDto.getDistance() <= 0)
                 return false;
 
             if (Strings.isBlank(satelliteDto.getName()) || !Arrays.asList(satellitesNames).contains(satelliteDto.getName().toUpperCase()))

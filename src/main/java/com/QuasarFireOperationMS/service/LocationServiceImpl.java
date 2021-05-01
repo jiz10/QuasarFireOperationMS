@@ -1,17 +1,19 @@
 package com.QuasarFireOperationMS.service;
 
+import com.QuasarFireOperationMS.domain.Satellite;
+import com.QuasarFireOperationMS.repositories.SatelliteRepository;
 import com.QuasarFireOperationMS.util.LocationCalculator;
-import com.QuasarFireOperationMS.web.model.LocationInfoDto;
-import com.QuasarFireOperationMS.web.model.PositionDto;
-import com.QuasarFireOperationMS.web.model.SatelliteDto;
-import com.QuasarFireOperationMS.web.model.SatellitesDto;
+import com.QuasarFireOperationMS.web.model.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author jiz10
@@ -24,8 +26,12 @@ public class LocationServiceImpl implements LocationService {
     @Autowired
     LocationCalculator locationCalculator;
 
+    @Autowired
+    SatelliteRepository satelliteRepository;
+
     @Value("${satellites.names}")
     private String[] satellitesNames;
+
 
     @Override
     public LocationInfoDto calculateLocationFromSatellitesGroup(SatellitesDto satellitesDto) {
@@ -52,5 +58,33 @@ public class LocationServiceImpl implements LocationService {
 
         return LocationInfoDto.builder().message("Mensaje de prueba").position(positionDto).build();
 
+    }
+
+    @Override
+    public SingleSatelliteInfoDto saveSatelliteInfo(SingleSatelliteDto singleSatelliteDto, String satellite_name) {
+
+        Optional<Satellite> satelliteOptional = satelliteRepository.findByName(satellite_name);
+        if (satelliteOptional.isPresent()) {
+            log.info("Satellite info already exist, replacing info...");
+            satelliteRepository.delete(satelliteOptional.get());
+        }
+
+        String[] messageArray = new String[singleSatelliteDto.getMessage().size()];
+        messageArray = singleSatelliteDto.getMessage().toArray(messageArray);
+
+        Satellite satelliteToSave = Satellite.builder()
+                .createdDate(Timestamp.from(Instant.now()))
+                .name(satellite_name)
+                .distance(singleSatelliteDto.getDistance())
+                .message(messageArray)
+                .build();
+
+        Satellite satelliteSaved = satelliteRepository.save(satelliteToSave);
+        log.info("Satellite info save: \n" + satelliteSaved);
+        return SingleSatelliteInfoDto.builder()
+                .name(satelliteSaved.getName())
+                .distance(satelliteSaved.getDistance())
+                .message(Arrays.asList(satelliteSaved.getMessage()))
+                .build();
     }
 }

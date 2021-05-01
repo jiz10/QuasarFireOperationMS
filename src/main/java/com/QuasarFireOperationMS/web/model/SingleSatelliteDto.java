@@ -1,31 +1,32 @@
 package com.QuasarFireOperationMS.web.model;
 
+import com.QuasarFireOperationMS.web.model.validator.MessageValidator;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 import java.util.List;
 
 /**
  * @author jiz10
- * 30/4/21
+ * 1/5/21
  */
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class SatelliteDto {
+public class SingleSatelliteDto {
 
     @NotNull
-    @NotBlank
-    private String name;
-
-    @NotNull
+    @Positive
     double distance;
 
     @NotNull
+    @MessageValidator
     List<String> message;
+
 }

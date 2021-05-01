@@ -1,10 +1,11 @@
 package com.QuasarFireOperationMS.web.model;
 
 import com.QuasarFireOperationMS.web.model.validator.SatelliteListValidator;
-import lombok.*;
-import org.hibernate.validator.constraints.NotBlank;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
@@ -18,7 +19,7 @@ import java.util.List;
 @Builder
 public class SatellitesDto {
 
-    @NotNull(message = "Satellites is mandatory")
+    @NotNull
     @SatelliteListValidator
     List<SatelliteDto> satellites;
 
