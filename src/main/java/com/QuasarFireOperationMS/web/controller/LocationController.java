@@ -36,7 +36,7 @@ public class LocationController {
     @PostMapping(path = "/topsecret/")
     public ResponseEntity<LocationInfoDto> handlePost(@Valid @NotNull @RequestBody SatellitesDto satellitesDto) {
 
-        LocationInfoDto locationInfoDto = locationService.calculateLocationFromSatellitesGroup(satellitesDto);
+        LocationInfoDto locationInfoDto = locationService.getLocationFromSatellitesGroup(satellitesDto);
         return new ResponseEntity<LocationInfoDto>(locationInfoDto, HttpStatus.OK);
     }
 
@@ -50,5 +50,11 @@ public class LocationController {
         SingleSatelliteInfoDto satelliteInfo = locationService.saveSatelliteInfo(singleSatelliteDto, satellite_name);
         return new ResponseEntity<SingleSatelliteInfoDto>(satelliteInfo, HttpStatus.CREATED);
 
+    }
+
+    @GetMapping(path = "/topsecret_split/")
+    public ResponseEntity<LocationInfoDto> handleGet() {
+
+        return new ResponseEntity<LocationInfoDto>(locationService.getLocationSplit(), HttpStatus.OK);
     }
 }

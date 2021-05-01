@@ -3,6 +3,7 @@ package com.QuasarFireOperationMS.service;
 import com.QuasarFireOperationMS.domain.Satellite;
 import com.QuasarFireOperationMS.repositories.SatelliteRepository;
 import com.QuasarFireOperationMS.util.LocationCalculator;
+import com.QuasarFireOperationMS.web.error.InsufficientInformationException;
 import com.QuasarFireOperationMS.web.model.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +35,7 @@ public class LocationServiceImpl implements LocationService {
 
 
     @Override
-    public LocationInfoDto calculateLocationFromSatellitesGroup(SatellitesDto satellitesDto) {
+    public LocationInfoDto getLocationFromSatellitesGroup(SatellitesDto satellitesDto) {
 
         double distanceOne = 0;
         double distanceTwo = 0;
@@ -85,6 +86,44 @@ public class LocationServiceImpl implements LocationService {
                 .name(satelliteSaved.getName())
                 .distance(satelliteSaved.getDistance())
                 .message(Arrays.asList(satelliteSaved.getMessage()))
+                .build();
+    }
+
+    @Override
+    public LocationInfoDto getLocationSplit() {
+
+        double distanceOne = 0;
+        double distanceTwo = 0;
+        double distanceThree = 0;
+        List<String> satellitesNamesList = Arrays.asList(satellitesNames);
+
+        List<Satellite> satelliteList = satelliteRepository.findAll();
+
+        if (satelliteList.size() != 3)
+            throw new InsufficientInformationException();
+
+
+        for (Satellite sat : satelliteList) {
+            log.info("Satellite name: " + sat.getName());
+            if (sat.getName().equalsIgnoreCase(satellitesNamesList.get(0))) {
+                distanceOne = sat.getDistance();
+            } else if (sat.getName().equalsIgnoreCase(satellitesNamesList.get(1))) {
+                distanceTwo = sat.getDistance();
+            } else if (sat.getName().equalsIgnoreCase(satellitesNamesList.get(2))) {
+                distanceThree = sat.getDistance();
+            }
+        }
+
+        double[] distances = new double[]{distanceOne, distanceTwo, distanceThree};
+        double[] location = locationCalculator.getLocation(distances);
+        PositionDto positionDto = PositionDto.builder()
+                .x(location[0])
+                .y(location[1])
+                .build();
+
+        return LocationInfoDto.builder()
+                .message("Mensaje de prueba")
+                .position(positionDto)
                 .build();
     }
 }

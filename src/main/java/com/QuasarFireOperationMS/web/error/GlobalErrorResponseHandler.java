@@ -37,6 +37,7 @@ public class GlobalErrorResponseHandler {
     public static final String ILLEGAL_ARGUMENT_MESSAGE = "Illegal value for the argument";
     public static final String NULL_POINTER_MESSAGE = "Null pointer";
     public static final String SATELLITE_DOES_NOT_EXIST = "Satellite doesn't exist";
+    public static final String INSUFFICIENT_INFORMATION = "Insufficient information to calculate location.";
 
     @ExceptionHandler(BindException.class)
     public ResponseEntity<List> handleBindException(BindException ex) {
@@ -86,6 +87,11 @@ public class GlobalErrorResponseHandler {
     @ExceptionHandler(NoSatelliteFoundException.class)
     public void noSatelliteFoundException(HttpServletRequest request, HttpServletResponse response, Exception ex) throws IOException {
         sendError(request, response, HttpServletResponse.SC_BAD_REQUEST, SATELLITE_DOES_NOT_EXIST, ex);
+    }
+
+    @ExceptionHandler(InsufficientInformationException.class)
+    public void InsufficientInformationException(HttpServletRequest request, HttpServletResponse response, Exception ex) throws IOException {
+        sendError(request, response, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, INSUFFICIENT_INFORMATION, ex);
     }
 
     private void sendError(HttpServletRequest request, HttpServletResponse response, int statusCode, String message, Exception ex) throws IOException {

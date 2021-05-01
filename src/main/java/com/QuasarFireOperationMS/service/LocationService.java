@@ -11,8 +11,10 @@ import com.QuasarFireOperationMS.web.model.SingleSatelliteInfoDto;
  */
 public interface LocationService {
 
-    public LocationInfoDto calculateLocationFromSatellitesGroup(SatellitesDto satellitesDto);
+    public LocationInfoDto getLocationFromSatellitesGroup(SatellitesDto satellitesDto);
 
 
     SingleSatelliteInfoDto saveSatelliteInfo(SingleSatelliteDto singleSatelliteDto, String satellite_name);
+
+    LocationInfoDto getLocationSplit();
 }
