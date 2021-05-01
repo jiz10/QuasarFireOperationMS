@@ -30,8 +30,6 @@ public class LocationServiceImpl implements LocationService {
     @Override
     public LocationInfoDto calculateLocationFromSatellitesGroup(SatellitesDto satellitesDto) {
 
-
-
         double distanceOne = 0;
         double distanceTwo = 0;
         double distanceThree = 0;
@@ -51,7 +49,10 @@ public class LocationServiceImpl implements LocationService {
             }
         }
         double[] distances = new double[]{distanceOne, distanceTwo, distanceThree};
-        PositionDto positionDto = locationCalculator.getLocation(distances);
+        double[] location = locationCalculator.getLocation(distances);
+        PositionDto positionDto = PositionDto.builder().x(location[0]).y(location[1]).build();
+
+
         return LocationInfoDto.builder().message("Mensaje de prueba").position(positionDto).build();
 
     }

@@ -1,6 +1,5 @@
 package com.QuasarFireOperationMS.util;
 
-import com.QuasarFireOperationMS.web.model.PositionDto;
 import com.lemmingapex.trilateration.NonLinearLeastSquaresSolver;
 import com.lemmingapex.trilateration.TrilaterationFunction;
 import org.apache.commons.math3.fitting.leastsquares.LeastSquaresOptimizer;
@@ -33,7 +32,7 @@ public class LocationCalculator {
     @Value("#{new Double('${satellites.three.y}')}")
     private Double satThreeY;
 
-    public PositionDto getLocation(double[] distances) {
+    public double[] getLocation(double[] distances) {
         //double[][] positions2 = new double[][]{{37.418436, -121.963477}, {37.417243, -121.961889}, {37.418692, -121.960194}};
         //double[] distances2 = new double[]{0.265710701754, 0.234592423446, 0.0548954278262};
 
@@ -49,7 +48,7 @@ public class LocationCalculator {
         System.out.println(centroid[0]);
         System.out.println(centroid[1]);
 
-        return PositionDto.builder().x(centroid[0]).y(centroid[1]).build();
+        return centroid;
     }
     /*
     {
