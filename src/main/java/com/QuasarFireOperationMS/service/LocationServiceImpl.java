@@ -37,26 +37,8 @@ public class LocationServiceImpl implements LocationService {
     @Override
     public LocationInfoDto getLocationFromSatellitesGroup(SatellitesDto satellitesDto) {
 
-        double distanceOne = 0;
-        double distanceTwo = 0;
-        double distanceThree = 0;
-
-        List<String> satellitesNamesList = Arrays.asList(satellitesNames);
-        for (SatelliteDto sat : satellitesDto.getSatellites()) {
-            log.info("Satellite name: " + sat.getName());
-            if (sat.getName().equalsIgnoreCase(satellitesNamesList.get(0))) {
-                distanceOne = sat.getDistance();
-            } else if (sat.getName().equalsIgnoreCase(satellitesNamesList.get(1))) {
-                distanceTwo = sat.getDistance();
-            } else if (sat.getName().equalsIgnoreCase(satellitesNamesList.get(2))) {
-                distanceThree = sat.getDistance();
-            }
-        }
-        double[] distances = new double[]{distanceOne, distanceTwo, distanceThree};
-        double[] location = locationCalculator.getLocation(distances);
+        double[] location = locationCalculator.getLocation(getDistances(satellitesDto));
         PositionDto positionDto = PositionDto.builder().x(location[0]).y(location[1]).build();
-
-
         return LocationInfoDto.builder().message("Mensaje de prueba").position(positionDto).build();
 
     }
@@ -92,16 +74,30 @@ public class LocationServiceImpl implements LocationService {
     @Override
     public LocationInfoDto getLocationSplit() {
 
-        double distanceOne = 0;
-        double distanceTwo = 0;
-        double distanceThree = 0;
-        List<String> satellitesNamesList = Arrays.asList(satellitesNames);
-
         List<Satellite> satelliteList = satelliteRepository.findAll();
 
         if (satelliteList.size() != 3)
             throw new InsufficientInformationException();
 
+        double[] location = locationCalculator.getLocation(getDistances(satelliteList));
+        PositionDto positionDto = PositionDto.builder()
+                .x(location[0])
+                .y(location[1])
+                .build();
+
+        return LocationInfoDto.builder()
+                .message("Mensaje de prueba")
+                .position(positionDto)
+                .build();
+    }
+
+    private double[] getDistances(List<Satellite> satelliteList) {
+
+        double distanceOne = 0;
+        double distanceTwo = 0;
+        double distanceThree = 0;
+        List<String> satellitesNamesList = Arrays.asList(satellitesNames);
+        log.info("Satellites names: " + satellitesNamesList);
 
         for (Satellite sat : satelliteList) {
             log.info("Satellite name: " + sat.getName());
@@ -114,16 +110,30 @@ public class LocationServiceImpl implements LocationService {
             }
         }
 
-        double[] distances = new double[]{distanceOne, distanceTwo, distanceThree};
-        double[] location = locationCalculator.getLocation(distances);
-        PositionDto positionDto = PositionDto.builder()
-                .x(location[0])
-                .y(location[1])
-                .build();
+        return new double[]{distanceOne, distanceTwo, distanceThree};
 
-        return LocationInfoDto.builder()
-                .message("Mensaje de prueba")
-                .position(positionDto)
-                .build();
+    }
+
+    private double[] getDistances(SatellitesDto satellitesDto) {
+
+        double distanceOne = 0;
+        double distanceTwo = 0;
+        double distanceThree = 0;
+        List<String> satellitesNamesList = Arrays.asList(satellitesNames);
+        log.info("Satellites names: " + satellitesNamesList);
+
+        for (SatelliteDto sat : satellitesDto.getSatellites()) {
+            log.info("Satellite name: " + sat.getName());
+            if (sat.getName().equalsIgnoreCase(satellitesNamesList.get(0))) {
+                distanceOne = sat.getDistance();
+            } else if (sat.getName().equalsIgnoreCase(satellitesNamesList.get(1))) {
+                distanceTwo = sat.getDistance();
+            } else if (sat.getName().equalsIgnoreCase(satellitesNamesList.get(2))) {
+                distanceThree = sat.getDistance();
+            }
+        }
+
+        return new double[]{distanceOne, distanceTwo, distanceThree};
+
     }
 }
