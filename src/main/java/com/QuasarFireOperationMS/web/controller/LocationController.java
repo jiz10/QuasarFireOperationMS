@@ -34,14 +34,14 @@ public class LocationController {
     private String[] satellitesNames;
 
     @PostMapping(path = "/topsecret/")
-    public ResponseEntity<LocationInfoDto> handlePost(@Valid @NotNull @RequestBody SatellitesDto satellitesDto) {
+    public ResponseEntity<LocationInfoDto> calculateLocationFromGroup(@Valid @NotNull @RequestBody SatellitesDto satellitesDto) {
 
         LocationInfoDto locationInfoDto = locationService.getLocationFromSatellitesGroup(satellitesDto);
         return new ResponseEntity<LocationInfoDto>(locationInfoDto, HttpStatus.OK);
     }
 
     @PostMapping(path = "/topsecret_split/{satellite_name}")
-    public ResponseEntity handlePost(@PathVariable @NotBlank String satellite_name, @Valid @NotNull @RequestBody SingleSatelliteDto singleSatelliteDto) {
+    public ResponseEntity saveSatelliteInfo(@PathVariable @NotBlank String satellite_name, @Valid @NotNull @RequestBody SingleSatelliteDto singleSatelliteDto) {
 
         if (!Arrays.asList(satellitesNames).contains(satellite_name.toUpperCase())) {
             throw new NoSatelliteFoundException();
@@ -53,7 +53,7 @@ public class LocationController {
     }
 
     @GetMapping(path = "/topsecret_split/")
-    public ResponseEntity<LocationInfoDto> handleGet() {
+    public ResponseEntity<LocationInfoDto> calculateLocationSplit() {
 
         return new ResponseEntity<LocationInfoDto>(locationService.getLocationSplit(), HttpStatus.OK);
     }

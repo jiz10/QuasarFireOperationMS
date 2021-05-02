@@ -11,7 +11,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
-import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -38,8 +39,14 @@ public class LocationServiceImpl implements LocationService {
     public LocationInfoDto getLocationFromSatellitesGroup(SatellitesDto satellitesDto) {
 
         double[] location = locationCalculator.getLocation(getDistances(satellitesDto));
-        PositionDto positionDto = PositionDto.builder().x(location[0]).y(location[1]).build();
-        return LocationInfoDto.builder().message("Mensaje de prueba").position(positionDto).build();
+        PositionDto positionDto = PositionDto.builder()
+                .x(location[0])
+                .y(location[1])
+                .build();
+        return LocationInfoDto.builder()
+                .message("Mensaje de prueba")
+                .position(positionDto)
+                .build();
 
     }
 
@@ -56,7 +63,7 @@ public class LocationServiceImpl implements LocationService {
         messageArray = singleSatelliteDto.getMessage().toArray(messageArray);
 
         Satellite satelliteToSave = Satellite.builder()
-                .createdDate(Timestamp.from(Instant.now()))
+                .createdDate(LocalDateTime.now())
                 .name(satellite_name)
                 .distance(singleSatelliteDto.getDistance())
                 .message(messageArray)
