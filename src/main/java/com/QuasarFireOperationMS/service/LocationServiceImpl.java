@@ -3,6 +3,7 @@ package com.QuasarFireOperationMS.service;
 import com.QuasarFireOperationMS.domain.Satellite;
 import com.QuasarFireOperationMS.repositories.SatelliteRepository;
 import com.QuasarFireOperationMS.util.LocationCalculator;
+import com.QuasarFireOperationMS.util.MessageCalculator;
 import com.QuasarFireOperationMS.web.error.InsufficientInformationException;
 import com.QuasarFireOperationMS.web.model.*;
 import lombok.extern.slf4j.Slf4j;
@@ -10,9 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -29,6 +28,9 @@ public class LocationServiceImpl implements LocationService {
     LocationCalculator locationCalculator;
 
     @Autowired
+    MessageCalculator messageCalculator;
+
+    @Autowired
     SatelliteRepository satelliteRepository;
 
     @Value("${satellites.names}")
@@ -43,8 +45,15 @@ public class LocationServiceImpl implements LocationService {
                 .x(location[0])
                 .y(location[1])
                 .build();
+
+        List<String> list1 = satellitesDto.getSatellites().get(0).getMessage();
+        List<String> list2 = satellitesDto.getSatellites().get(1).getMessage();
+        List<String> list3 = satellitesDto.getSatellites().get(2).getMessage();
+
+        String message = messageCalculator.getMessage(list1, list2, list3);
+
         return LocationInfoDto.builder()
-                .message("Mensaje de prueba")
+                .message(message)
                 .position(positionDto)
                 .build();
 
@@ -92,8 +101,15 @@ public class LocationServiceImpl implements LocationService {
                 .y(location[1])
                 .build();
 
+        List<String> list1 = Arrays.asList(satelliteList.get(0).getMessage());
+        List<String> list2 = Arrays.asList(satelliteList.get(1).getMessage());
+        List<String> list3 = Arrays.asList(satelliteList.get(2).getMessage());
+
+
+        String message = messageCalculator.getMessage(list1, list2, list3);
+
         return LocationInfoDto.builder()
-                .message("Mensaje de prueba")
+                .message(message)
                 .position(positionDto)
                 .build();
     }
@@ -143,4 +159,5 @@ public class LocationServiceImpl implements LocationService {
         return new double[]{distanceOne, distanceTwo, distanceThree};
 
     }
+
 }
