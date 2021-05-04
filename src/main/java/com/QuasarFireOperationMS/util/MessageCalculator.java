@@ -101,7 +101,6 @@ public class MessageCalculator {
         }
     }
 
-
     private static int calculateStartPosition(String[] array) {
         int startPosition = 0;
         for (int i = 0; i < array.length; i++) {
@@ -122,9 +121,9 @@ public class MessageCalculator {
         return subString1;
     }
 
-    private static String[] replaceArrays(String[] subString1, String[] subString2, String[] subString3, int largoQueDebeTenerTodos) {
+    private static String[] replaceArrays(String[] subString1, String[] subString2, String[] subString3, int arrayFinalLength) {
 
-        String[] arrayMsg = new String[largoQueDebeTenerTodos];
+        String[] arrayMsg = new String[arrayFinalLength];
         int m;
         for (m = 0; m < arrayMsg.length; m++) {
             if (subString1[m] != null && subString1[m] != "") {
