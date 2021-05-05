@@ -2,7 +2,9 @@
 
 Este repositorio contiene el código fuente usado para calcular la posición y contenido del mensaje proveniente de 3 fuentes diferentes.
 
-Para el cálculo de la posición se utilizó el método de trilateración. Este método no permite calcular la posición de un punto teniendo como datos iniciales la ubucación de otros 3 puntos y sus respectivas distancias con respecto al punto a calcular. Para esto se utilizó una librería:
+Para el cálculo de la posición se utilizó el método de trilateración. La trilateración es un método matemático para determinar las posiciones relativas de objetos usando la geometría de triángulos de forma análoga a la triangulación. A diferencia de esta, que usa medidas de ángulo (junto con al menos una distancia conocida para calcular la localización del sujeto), la trilateración usa las localizaciones conocidas de dos o más puntos de referencia, y la distancia medida entre el sujeto y cada punto de referencia. Para determinar de forma única y precisa la localización relativa de un punto en un plano bidimensional usando solo trilateración, se necesitan generalmente al menos 3 puntos de referencia.
+
+Este método nos permite calcular la posición de un punto teniendo como datos iniciales la ubucación de otros 3 puntos y sus respectivas distancias con respecto al punto a calcular. Para esto se utilizó una librería:
 
 https://github.com/lemmingapex/trilateration
 
