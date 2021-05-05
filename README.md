@@ -59,6 +59,7 @@ El proyecto se realizó utilizando estas tecnologías:
 
 
 ## API Documentation
+La  URL base donde está hosteado el servicio es https://quasar-ms.rj.r.appspot.com/
 
 * [Api-docs](https://quasar-ms.rj.r.appspot.com/v2/api-docs)
 * [Swagger UI](https://quasar-ms.rj.r.appspot.com/swagger-ui.html#/)
