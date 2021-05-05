@@ -43,10 +43,24 @@ Para el cálculo del mensaje se desarrolló un algoritmo basado en el cálculo d
 
 Nota: Alternativamente se desarrollo otra forma de resolverlo teniendo en cuenta anagramas, en este caso es condicion necesario que en los mensajes de entrada al menos se pueda construir un bigrama para reconstruir el mensaje final. El algoritmo se encuentra la clase MessageCalculator2
 
+El proyecto se realizó utilizando estas tecnologías:
+
+* Java 11 con Spring-Boot 2.4.4
+* Maven
+* Mysql 8 
+* JUnit5
+* Log4j2
+
+
+*Para la ejecución local es necesario:*
+- Tener Java 11 y Maven 3.6.0.
+- Ejecutar mvn spring-boot:run el cuál iniciará el proyecto apuntando a una base de datos en memoria H2.
+- Los endpoint tendrán url base /api/v1.
+
 
 ## API Documentation
 
 * [Api-docs](https://quasar-ms.rj.r.appspot.com/v2/api-docs)
 * [Swagger UI](https://quasar-ms.rj.r.appspot.com/swagger-ui.html#/)
-
+* [Postman collection](https://drive.google.com/file/d/1P_FM_2YQqmUDyu2brJB3x4F0_acGaJiE/view?usp=sharing)
  
