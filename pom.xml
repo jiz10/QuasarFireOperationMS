@@ -158,6 +158,12 @@
                         </goals>
                     </execution>
                 </executions>
+                <configuration>
+                    <excludes>
+                        <!-- exclude MessageController2 -->
+                        <exclude>com/QuasarFireOperationMS/util/MessageCalculator2.class</exclude>
+                    </excludes>
+                </configuration>
             </plugin>
         </plugins>
     </build>
